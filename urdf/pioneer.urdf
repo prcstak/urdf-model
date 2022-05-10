@@ -1,0 +1,208 @@
+<?xml version="1.0"?>
+<robot name="pioneer">
+  <material name="Wheel">
+    <color rgba="0.32 0.32 0.32 1"/>
+  </material>
+  <material name="axis">
+    <color rgba="0.0 0.0 0.0 1"/>
+  </material>
+  <material name="imu">
+    <color rgba="0.89 1.0 0.83 1"/>
+  </material>
+
+  <link name="base_link">
+    <visual>
+       <geometry>
+        <mesh filename="package://my_model/meshes/chassis.dae"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.51 0.4 0.2"/>
+      </geometry>
+      <origin xyz="0 0 -0.046"/>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+    </inertial>
+  </link>
+
+  <link name="caster">
+    <visual>
+      <geometry>
+        <sphere radius="0.05"/>
+      </geometry>
+      <material name="Wheel">
+        </material>
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius="0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+    </inertial>
+  </link>
+    
+  <link name="axis">
+    <visual>
+      <geometry>
+        <cylinder radius="0.02" length="0.4"/>
+      </geometry>
+      <origin rpy="1.5708 0 0" xyz="-0.15 0 -0.07"/>
+      <material name="axis">
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.02" length="0.4"/>
+      </geometry>
+      <origin rpy="1.5708 0 0" xyz="-0.15 0 -0.07"/>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+    </inertial>
+  </link>
+
+  <link name="left_wheel">
+    <visual>
+      <geometry>
+        <cylinder length="0.07" radius="0.115"/>
+      </geometry>
+      <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+      <material name="Wheel">
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.07" radius="0.115"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+    </inertial>
+  </link>
+
+  <link name="right_wheel">
+    <visual>
+      <geometry>
+        <cylinder length="0.07" radius="0.115"/>
+      </geometry>
+      <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+      <material name="Wheel">
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.07" radius="0.115"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+    </inertial>
+  </link>
+
+  <link name="imu_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="0.05 0.05 0.05"/>
+      </geometry>
+      <material name="imu">
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="0.05 0.05 0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.001"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+  </link>
+
+  <gazebo reference="caster">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo reference="axis">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo reference="left_wheel">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo reference="right_wheel">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo reference="imu_link">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <joint name="base_to_axis" type="fixed">
+    <parent link="base_link"/>
+    <child link="axis"/>
+  </joint>
+
+  <joint name="base_to_caster" type="continuous">
+    <origin xyz="0.2 0 -0.15"/>
+    <axis xyz="0 1 1"/>
+    <parent link="base_link"/>
+    <child link="caster"/>
+  </joint>
+
+  <joint name="left_wheel_to_axis" type="continuous">
+    <origin rpy="0 0 0" xyz="-0.15 -0.21 -0.07"/>
+    <axis xyz="0 1 0"/>
+    <parent link="axis"/>
+    <child link="left_wheel"/>
+  </joint>
+
+  <joint name="right_wheel_to_axis" type="continuous">
+    <origin rpy="0 0 3.14159" xyz="-0.15 0.21 -0.07"/>
+    <axis xyz="0 1 0"/>
+    <parent link="axis"/>
+    <child link="right_wheel"/>
+  </joint>
+
+  <joint name="imu_joint" type="fixed">   
+    <origin xyz="0 0 0.1"/>
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+  </joint>
+
+  <gazebo reference="IMU_link">
+    <gravity>false</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>__default_topic__</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>imu</topicName>
+        <bodyName>imu_link</bodyName>
+        <updateRateHZ>10.0</updateRateHZ>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>imu_link</frameName>
+        <initialOrientationAsReference>false</initialOrientationAsReference>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+    <material>Gazebo/Orange</material>
+  </gazebo>
+  
+</robot>
