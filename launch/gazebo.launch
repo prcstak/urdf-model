@@ -16,7 +16,7 @@
     <arg name="world_name" value="$(find my_model)/launch/myrobot.world" />
   </include>
 
-  <arg name="model" />
+  <arg name="model" default="$(find my_model)/urdf/pioneer_macroed.urdf.xacro"/>
   <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
 
   <!-- push robot_description to factory and spawn robot in gazebo -->
